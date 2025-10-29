@@ -1,3 +1,4 @@
+import sys
 from datetime import datetime
 import json
 import os
@@ -12,8 +13,6 @@ with open("controls.json", "r") as f:
 
 # Store connected clients
 clients = {}
-
-STATIC_DIR = r"E:\PROJECTS_2025\frangipani\webapp\public"
 
 
 def generate_client_id():
@@ -125,7 +124,7 @@ async def static_handler(request):
     if path == '':
         path = 'index.html'
 
-    file_path = os.path.join(STATIC_DIR, path)
+    file_path = os.path.join(sys.argv[1], path)
 
     if os.path.isfile(file_path):
         return web.FileResponse(file_path)
