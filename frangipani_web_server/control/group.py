@@ -4,9 +4,11 @@ from dataclasses_json import dataclass_json
 
 from frangipani_web_server.control.base import BaseWebControlDefinition
 from frangipani_web_server.control.definition import WebControlDefinition
+from frangipani_web_server.control.type_enum import ControlTypeEnum
 
 
 @dataclass_json
 @dataclass
 class WebControlGroupDefinition(BaseWebControlDefinition):
     controls: list[WebControlDefinition]
+    type = ControlTypeEnum.Group
