@@ -9,5 +9,4 @@ from frangipani_web_server.control.base.base_input import BaseInputControl
 @dataclass(kw_only=True)
 class ColorWheel(BaseInputControl):
     address: str
-    hue: float
-    brightness: float
+    value: tuple[float, float]

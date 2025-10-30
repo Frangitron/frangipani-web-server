@@ -12,6 +12,6 @@ class Fader(BaseInputControl):
     address: str
     value: float
 
-    orientation: ControlOrientationEnum = ControlOrientationEnum.Horizontal
     max: float | None = None
     min: float | None = None
+    orientation: ControlOrientationEnum = ControlOrientationEnum.Horizontal

@@ -9,4 +9,4 @@ from frangipani_web_server.control.base.base import BaseControl
 @dataclass(kw_only=True)
 class BaseInputControl(BaseControl):
     address: str
-    value: int | float | bool
+    value: int | float | bool | tuple[float, float]
