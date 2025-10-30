@@ -15,57 +15,6 @@ with open("controls.json", "r") as f:
 clients = {}
 
 
-def generate_client_id():
-    """Generate a unique client ID"""
-    timestamp = int(datetime.now().timestamp() * 1000)
-    unique_id = str(uuid.uuid4())[:8]
-    return f"client-{timestamp}-{unique_id}"
-
-
-def update_control(control_id, value):
-    """Update control value in state"""
-
-    def find_and_update(controls):
-        for control in controls:
-            if control.get("id") == control_id:
-                if isinstance(value, dict):
-                    control.update(value)
-                else:
-                    control["value"] = value
-                return True
-
-            if "controls" in control and isinstance(control["controls"], list):
-                if find_and_update(control["controls"]):
-                    return True
-
-        return False
-
-    find_and_update(controls_definitions["controls"])
-
-
-async def broadcast_update(msg, sender_id):
-    """Broadcast update to all connected clients except sender"""
-    broadcast_msg = json.dumps({
-        "type": "update",
-        "controlId": msg.get("controlId"),
-        "value": msg.get("value"),
-        "senderId": sender_id
-    })
-
-    disconnected_clients = []
-    for ws, client_id in list(clients.items()):
-        if client_id != sender_id:
-            try:
-                await ws.send_str(broadcast_msg)
-            except Exception:
-                disconnected_clients.append(ws)
-
-    # Clean up disconnected clients
-    for ws in disconnected_clients:
-        if ws in clients:
-            del clients[ws]
-
-
 async def websocket_handler(request):
     """Handle WebSocket connections"""
     ws = web.WebSocketResponse()
