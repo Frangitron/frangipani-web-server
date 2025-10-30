@@ -1,0 +1,31 @@
+[build-system]
+requires = [
+    "setuptools",
+    "aiohttp"
+]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "frangipani-web-server"
+description = "Server for Frangipani's web control app"
+readme = "README.md"
+requires-python = ">=3.11"
+license = {file = "LICENSE"}
+authors = [
+  { name = "Frangitron", email = "contact@frangitron.com" }
+]
+maintainers = [
+  { name = "Frangitron", email = "contact@frangitron.com" }
+]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Programming Language :: Python :: 3 :: Only",
+]
+keywords = ["python", "frangitron", "web", "lighting"]
+version = "0.0.0"
+
+[tool.setuptools]
+include-package-data = true
+
+[tool.hatch.metadata]
+allow-direct-references = true
