@@ -8,7 +8,7 @@ from aiohttp import web
 from aiohttp.web_request import BaseRequest
 
 from frangipani_web_server.configuration import WebServerConfiguration
-from frangipani_web_server.control.store import WebControlStore
+from frangipani_web_server.control.store import ControlStore
 from frangipani_web_server.message.base import BaseMessage
 from frangipani_web_server.message.init import InitMessage
 from frangipani_web_server.message.update import UpdateMessage
@@ -19,7 +19,7 @@ _logger = logging.getLogger("WebServer")
 class FrangipaniWebServer:
     def __init__(self, configuration: WebServerConfiguration):
         self._public_folder = configuration.public_folder
-        self._control_store = WebControlStore(configuration.root_control_definition)
+        self._control_store = ControlStore(configuration.root_control_definition)
         self._message_callback = configuration.message_callback
         self._clients = {}
 
@@ -66,7 +66,7 @@ class FrangipaniWebServer:
             # Send initial state to the new client
             init_message = InitMessage(
                 client_id = client_id,
-                root_control_definition = self._control_store.get_updated_root_control_definition()
+                root_control_definition = self._control_store.get_updated_root_control()
             )
             await websocket_response.send_str(init_message.to_json())
 

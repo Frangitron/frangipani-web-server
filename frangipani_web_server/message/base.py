@@ -21,7 +21,7 @@ class BaseMessage:
         identify the specific type of message.
 
     """
-    type: str | None = None  # FIXME find a better thab using kw_only=True in subclasses
+    _type: str | None = None  # FIXME find a better than using kw_only=True in subclasses
 
     def __post_init__(self):
-        self.type = self.__class__.__name__
+        self._type = self.__class__.__name__
