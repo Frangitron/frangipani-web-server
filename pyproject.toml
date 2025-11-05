@@ -1,7 +1,8 @@
 [build-system]
 requires = [
     "setuptools",
-    "aiohttp"
+    "aiohttp",
+    "dataclasses-json",
 ]
 build-backend = "setuptools.build_meta"
 
