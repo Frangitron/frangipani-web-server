@@ -4,7 +4,7 @@ import os
 import uuid
 from datetime import datetime
 
-from aiohttp import web
+from aiohttp import web, WSCloseCode
 from aiohttp.web_request import BaseRequest
 
 from frangipani_web_server.configuration import WebServerConfiguration
@@ -40,6 +40,12 @@ class FrangipaniWebServer:
 
     async def stop_async(self):
         """Stop the web server asynchronously"""
+        for ws in list(self._clients.keys()):
+            await ws.close(
+                code=WSCloseCode.GOING_AWAY,
+                message='Server shutdown'
+            )
+
         if self._runner:
             await self._runner.cleanup()
             self._runner = None
