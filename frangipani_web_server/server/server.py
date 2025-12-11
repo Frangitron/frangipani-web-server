@@ -22,9 +22,28 @@ class FrangipaniWebServer:
         self._control_store = ControlStore(configuration.root_control_definition)
         self._message_callback = configuration.message_callback
         self._clients = {}
+        self._runner = None
+
+    async def start_async(self):
+        """Start the web server asynchronously"""
+        app = await self._init_app()
+        self._runner = web.AppRunner(app)
+        await self._runner.setup()
+        site = web.TCPSite(self._runner, '0.0.0.0', 8080)
+        await site.start()
+        _logger.info("Web server started on http://0.0.0.0:8080")
 
     def start(self):
+        """Start blocking loop (legacy support)"""
+        # If you need to keep this blocking method for simple scripts:
         web.run_app(self._init_app(), host='0.0.0.0', port=8080)
+
+    async def stop_async(self):
+        """Stop the web server asynchronously"""
+        if self._runner:
+            await self._runner.cleanup()
+            self._runner = None
+            _logger.info("Web server stopped")
 
     async def _init_app(self):
         """Initialize the web application"""
